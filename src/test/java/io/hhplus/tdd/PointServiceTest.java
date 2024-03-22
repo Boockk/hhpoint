@@ -14,13 +14,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PointServiceTest {
-    private final UserPointTable userPointTable = new UserPointTable();
-    private final PointHistoryTable pointHistoryTable = new PointHistoryTable();
-    private final PointService pointService = new PointService(userPointTable, pointHistoryTable);
+
+    /*
+    * 테스트 메소드마다 각각의 객체 생성 및 초기화,
+    * 테스트가 서로에게 영향을 미치지 않게 하기 위해
+    * 독립된 객체 생성 및 초기화하도록 테스트 코드를 리팩토링 진행
+    * */
 
     // 특정 유저의 포인트 조회 기능 테스트
     @Test
     void getByUserId() {
+        UserPointTable userPointTable = new UserPointTable();
+        PointHistoryTable pointHistoryTable = new PointHistoryTable();
+        PointService pointService = new PointService(userPointTable, pointHistoryTable);
+
         // 입력값
         long userId = 1L;
         userPointTable.insertOrUpdate(userId, 5000L);
@@ -36,6 +43,10 @@ public class PointServiceTest {
     // 특정 유저의 포인트 충전/이용 내역 조회 기능 테스트
     @Test
     void getHistoriesByUserId() {
+        UserPointTable userPointTable = new UserPointTable();
+        PointHistoryTable pointHistoryTable = new PointHistoryTable();
+        PointService pointService = new PointService(userPointTable, pointHistoryTable);
+
         // 입력값
         long userId = 1L;
         long amount = 1000L;
@@ -55,6 +66,10 @@ public class PointServiceTest {
     // 특정 유저의 포인트 충전 기능 테스트
     @Test
     void charge() {
+        UserPointTable userPointTable = new UserPointTable();
+        PointHistoryTable pointHistoryTable = new PointHistoryTable();
+        PointService pointService = new PointService(userPointTable, pointHistoryTable);
+
         // 입력값
         long userId = 1L;
         userPointTable.insertOrUpdate(userId, 5000L);
@@ -71,6 +86,10 @@ public class PointServiceTest {
     // 포인트 충전 기능의 실패 테스트 - 사용자의 잔액이 100,000을 초과하는 경우
     @Test
     void fail_IfUsersPointOver100000() {
+        UserPointTable userPointTable = new UserPointTable();
+        PointHistoryTable pointHistoryTable = new PointHistoryTable();
+        PointService pointService = new PointService(userPointTable, pointHistoryTable);
+
         // 입력값
         long userId = 1L;
         userPointTable.insertOrUpdate(userId, 99000L);
